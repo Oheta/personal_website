@@ -22,6 +22,6 @@ function isMouseInElement(elementId)
     if (element.parentNode.matches(":hover")) {
         isOnElement = true;
     }
-    console.log(isOnElement);
+    /*console.log(isOnElement);*/
     return isOnElement;
 }

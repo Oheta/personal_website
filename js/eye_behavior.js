@@ -14,15 +14,17 @@ function eyeTrackMouse(){
                 var y = !isTouchScreen() ? event.clientY : event.touches[0].clientY;
                 let radian = Math.atan2(x - eyeballX, y - eyeballY);
                 let rotationDegrees = radian * (180 / Math.PI) * -1 + 180;
-                if(isMouseInElement("eyeball"))
+                addEventListener("mouseenter", (e) => {/* eyeball.style.transform = "none"; */console.log("enter");});
+                addEventListener("mouseleave", (e) => {/* eyeball.style.transform = "none"; */console.log("leave");});
+                /* if(isMouseInElement("eyeball"))
                 {
                     console.log(x,y);
-                    iris_ref.style.left = x + "px";
-                    iris_ref.style.top = y + "px";
+                    iris_ref.style.left = x - eyeballX + "px";
+                    iris_ref.style.top = y - eyeballY + "px";
                 }
-                else{
+                else{ */
                     eyeball.style.transform = "rotate(" + rotationDegrees + "deg)";
-                }
+                /* } */
             });
         });
     });
