@@ -8,8 +8,60 @@ body, html {
 
 .main-menu_item{
     border-radius: 50%;
-    padding: 20px;
+    padding: 30px;
     background-color: whitesmoke;
-    margin-left: 100%;
+    margin-top: 20%;
     transform: none;
+    position: absolute;
+    list-style: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-text{
+    position: absolute;
+    background-color: rgba(250, 235, 215, 0.5);
+    padding: 30%;
+    border: 0%;
+}
+.menu-text::before{
+    content: "";
+    position: absolute;
+    background-color: rgba(250, 235, 215, 0.5);
+    border-top-left-radius: 100px;
+    border-bottom-left-radius: 100px;
+    border-right: 0;
+    z-index: -1;
+    height: 100%;
+    width: 50%;
+    left: -50%;
+    top: 0;
+}
+.menu-text::after{
+    position: absolute;
+    content: "";
+    background-color: rgba(250, 235, 215, 0.5);
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+    border-left: 0;
+    z-index: -1;
+    height: 100%;
+    width: 50%;
+    left: 100%;
+    top: 0;
+}
+
+#mm-child1{
+    top: auto;
+}
+#mm-child2{
+    top: auto;
+
+}
+#mm-child3{
+    top: auto;
+
+}
+#mm-child4{
+    top: auto;
 }
