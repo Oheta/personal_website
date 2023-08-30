@@ -1,6 +1,10 @@
 @import url(style/fonts.css);
 @import url(style/eye_style.css);
 
+:root{
+    --mmi_radius: 60px;
+}
+
 body, html {
     height: 100%;
     background: linear-gradient(to right, #5f349a,#5e79b8);
@@ -8,7 +12,8 @@ body, html {
 
 .main-menu_item{
     border-radius: 50%;
-    padding: 30px;
+    width: var(--mmi_radius);
+    height: var(--mmi_radius);
     background-color: whitesmoke;
     margin-top: 20%;
     transform: none;
@@ -21,47 +26,36 @@ body, html {
 .menu-text{
     position: absolute;
     background-color: rgba(250, 235, 215, 0.5);
-    padding: 30%;
     border: 0%;
+    height: 100%;
+    top: 0%;
+    left: 100%;
 }
 .menu-text::before{
     content: "";
     position: absolute;
-    background-color: rgba(250, 235, 215, 0.5);
+    display: inline-block;
+    background-color: rgba(255, 0, 0, 0.5);
     border-top-left-radius: 100px;
     border-bottom-left-radius: 100px;
     border-right: 0;
     z-index: -1;
     height: 100%;
-    width: 50%;
-    left: -50%;
+    width: var(--mmi_radius);
+    left: calc(-1 * var(--mmi_radius));
     top: 0;
+    overflow-x: hidden;
 }
 .menu-text::after{
-    position: absolute;
     content: "";
+    position: absolute;
     background-color: rgba(250, 235, 215, 0.5);
     border-top-right-radius: 100px;
     border-bottom-right-radius: 100px;
     border-left: 0;
     z-index: -1;
     height: 100%;
-    width: 50%;
+    width: 100%;
     left: 100%;
     top: 0;
-}
-
-#mm-child1{
-    top: auto;
-}
-#mm-child2{
-    top: auto;
-
-}
-#mm-child3{
-    top: auto;
-
-}
-#mm-child4{
-    top: auto;
 }

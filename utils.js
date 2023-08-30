@@ -25,3 +25,15 @@ function isMouseInElement(elementId)
     /*console.log(isOnElement);*/
     return isOnElement;
 }
+
+function degreesToRadians(degrees)
+{
+    var pi = Math.PI;
+    return degrees * (pi/180);
+}
+
+function radiansToDegrees(radians)
+{
+    var pi = Math.PI;
+    return radians * (180/pi);
+}
