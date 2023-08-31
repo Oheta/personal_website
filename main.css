@@ -2,40 +2,78 @@
 @import url(style/eye_style.css);
 
 :root{
-    --mmi_radius: 60px;
+    --mmi_radius: 30px;
 }
 
 body, html {
     height: 100%;
+    margin: 0%;
+}
+
+#menu-bg{
+    height: 100%;
     background: linear-gradient(to right, #5f349a,#5e79b8);
+    margin: 0%;
+}
+
+#eye-mainMenu{
+    margin: auto;
 }
 
 .main-menu_item{
     border-radius: 50%;
-    width: var(--mmi_radius);
     height: var(--mmi_radius);
-    background-color: whitesmoke;
-    margin-top: 20%;
+    width: var(--mmi_radius);
     transform: none;
     position: absolute;
     list-style: none;
     align-items: center;
     justify-content: center;
+    top: 40%;
+    left: 30%;
+}
+
+.mm-button{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 50%;
+    width: var(--mmi_radius);
+    height: var(--mmi_radius);
+    background-color: rgb(250, 235, 215);
+    border: none;
+    transform: none;
+    position: absolute;
+    list-style: none;
+    align-items: center;
+    justify-content: center;
+    margin: 0%;
+    transition: 0.2s all linear;
+}
+.mm-button:checked{
+    border: 7px solid #3434ff;
+    
 }
 
 .menu-text{
     position: absolute;
-    background-color: rgba(250, 235, 215, 0.5);
+    background-color: rgba(250, 235, 215, 0.502);
     border: 0%;
-    height: 100%;
+    height: var(--mmi_radius);
     top: 0%;
     left: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: baseline;
+    margin: auto;
 }
+
 .menu-text::before{
     content: "";
     position: absolute;
-    display: inline-block;
-    background-color: rgba(255, 0, 0, 0.5);
+    background-color: rgba(250, 235, 215, 0.5);
     border-top-left-radius: 100px;
     border-bottom-left-radius: 100px;
     border-right: 0;
@@ -44,7 +82,7 @@ body, html {
     width: var(--mmi_radius);
     left: calc(-1 * var(--mmi_radius));
     top: 0;
-    overflow-x: hidden;
+    z-index: -1;
 }
 .menu-text::after{
     content: "";
@@ -55,7 +93,18 @@ body, html {
     border-left: 0;
     z-index: -1;
     height: 100%;
-    width: 100%;
+    width: calc(0.6 * var(--mmi_radius));
     left: 100%;
     top: 0;
+}
+.menu-text:hover, .menu-text:hover::after, .menu-text:hover::before {
+    background-color: rgba(54, 54, 112, 0.541);
+    transition: background-color 0.5s;
+}
+
+
+.menu-text > p {
+    font-size: 100%;
+    font: 1.2em "Courier New", sans-serif;
+    margin: auto;
 }

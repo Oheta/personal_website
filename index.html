@@ -7,26 +7,40 @@
 	<title>Theau Ebalard - Freelancer</title>
 </head>
 <body>
-	<div id="eye-wrapper">
-		<div id="eye">
-			<div id="eyelid-t"></div>
-			<div id="eyelid-b"></div>
-			<div id="eyeball">
-				<div id="iris">
-					<div id="pupil"></div>
+	<div id="menu-bg">
+		<div id="eye-wrapper">
+			<div id="eye">
+				<div id="eyelid-t"></div>
+				<div id="eyelid-b"></div>
+				<div id="eyeball">
+					<div id="iris">
+						<div id="pupil"></div>
+					</div>
 				</div>
 			</div>
+			<script src="js\eye_behavior.js"></script>
+			<nav style="margin: auto;">
+				<ul id="eye-mainMenu">
+					<div class="main-menu_item">
+						<input type="radio" name="mm-radio" value="lorem" class="mm-button">
+						<a class="menu-text" link=""><p onclick="">Lorem</p></a>
+					</div>
+					<div class="main-menu_item">
+						<input type="radio" name="mm-radio" value="ipsum" class="mm-button">
+						<a class="menu-text" link=""><p onclick="">Ipsum</p></a>
+					</div>
+					<div class="main-menu_item">
+						<input type="radio" name="mm-radio" value="dolor" class="mm-button">
+						<a class="menu-text" link=""><p onclick="">Dolor</p></a>
+					</div>
+					<div class="main-menu_item">
+						<input type="radio" name="mm-radio" value="sitamet" class="mm-button">
+						<a class="menu-text" link=""><p onclick="">SitAmet</p></a>
+					</div>
+				</ul>
+				<script src="js\menu.js"></script>
+			</nav>
 		</div>
-		<script src="js\eye_behavior.js"></script>
-		<nav>
-			<ul id="eye-mainMenu">
-				<li class="main-menu_item"><a class="menu-text" id="mm-child1">Lorem</a></li>
-				<li class="main-menu_item"><a class="menu-text" id="mm-child2">Ipsum</a></li>
-				<li class="main-menu_item"><a class="menu-text" id="mm-child3">Dolor</a></li>
-				<li class="main-menu_item"><a class="menu-text" id="mm-child4">SitAmet</a></li>
-			</ul>
-			<script src="js\menu.js"></script>
-		</nav>
 	</div>
 </body>
 </html>

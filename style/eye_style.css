@@ -4,7 +4,7 @@
     display: flex;
     align-items: top;
     justify-content: left;
-    margin-top: 15%;
+    margin-top: 20%;
     position: fixed;
     left: 2em;
 }
@@ -12,8 +12,8 @@
 #eye{
     content: "";
     position: absolute;
-    width: 7em;
-    height: 7em;
+    width: 6em;
+    height: 6em;
     background-color: blue;
     border-radius: 50%;
     display: flex;
