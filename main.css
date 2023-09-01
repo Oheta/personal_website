@@ -8,6 +8,7 @@
 body, html {
     height: 100%;
     margin: 0%;
+    overflow: hidden;
 }
 
 #menu-bg{
@@ -30,7 +31,7 @@ body, html {
     align-items: center;
     justify-content: center;
     top: 40%;
-    left: 30%;
+    left: 35%;
 }
 
 .mm-button{
@@ -52,9 +53,9 @@ body, html {
 }
 .mm-button:checked{
     border: 7px solid #3434ff;
-    
 }
 
+/*#region MENU-TEXT CLASS*/
 .menu-text{
     position: absolute;
     background-color: rgba(250, 235, 215, 0.502);
@@ -69,7 +70,6 @@ body, html {
     vertical-align: baseline;
     margin: auto;
 }
-
 .menu-text::before{
     content: "";
     position: absolute;
@@ -97,14 +97,29 @@ body, html {
     left: 100%;
     top: 0;
 }
-.menu-text:hover, .menu-text:hover::after, .menu-text:hover::before {
-    background-color: rgba(54, 54, 112, 0.541);
-    transition: background-color 0.5s;
-}
-
-
 .menu-text > p {
     font-size: 100%;
     font: 1.2em "Courier New", sans-serif;
     margin: auto;
 }
+/*#endregion*/
+
+#Introduction{
+    background-color: antiquewhite;
+}
+#Experience{}
+#Portfolio{}
+#Contact{}
+
+.content{
+    background-color: antiquewhite;
+    margin-top: 2vh;
+    height: 96vh;
+    width: 78vw;
+    position: absolute;
+    border-radius: 30px;
+    transition: linear;
+    top: 0;
+    left: 100%;
+}
+

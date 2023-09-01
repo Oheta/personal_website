@@ -1,6 +1,6 @@
 #eye-wrapper {
-    height: 8em;
-    width: 8em;
+    height: 12vmin;
+    width: 12vmin;
     display: flex;
     align-items: top;
     justify-content: left;
@@ -12,8 +12,8 @@
 #eye{
     content: "";
     position: absolute;
-    width: 6em;
-    height: 6em;
+    width: 9vmin;
+    height: 9vmin;
     background-color: blue;
     border-radius: 50%;
     display: flex;

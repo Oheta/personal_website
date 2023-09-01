@@ -22,25 +22,29 @@
 			<nav style="margin: auto;">
 				<ul id="eye-mainMenu">
 					<div class="main-menu_item">
-						<input type="radio" name="mm-radio" value="lorem" class="mm-button">
-						<a class="menu-text" link=""><p onclick="">Lorem</p></a>
+						<input type="radio" name="mm-radio" value="lorem" onclick="showIntroduction()" class="mm-button">
+						<a class="menu-text" link=""><p onclick="">Introduction</p></a>
 					</div>
 					<div class="main-menu_item">
-						<input type="radio" name="mm-radio" value="ipsum" class="mm-button">
-						<a class="menu-text" link=""><p onclick="">Ipsum</p></a>
+						<input type="radio" name="mm-radio" value="ipsum" onclick="showExperience()" class="mm-button">
+						<a class="menu-text" link=""><p onclick="">Experience</p></a>
 					</div>
 					<div class="main-menu_item">
-						<input type="radio" name="mm-radio" value="dolor" class="mm-button">
-						<a class="menu-text" link=""><p onclick="">Dolor</p></a>
+						<input type="radio" name="mm-radio" value="dolor" onclick="showPortfolio()" class="mm-button">
+						<a class="menu-text" link=""><p onclick="">Portfolio</p></a>
 					</div>
 					<div class="main-menu_item">
-						<input type="radio" name="mm-radio" value="sitamet" class="mm-button">
-						<a class="menu-text" link=""><p onclick="">SitAmet</p></a>
+						<input type="radio" name="mm-radio" value="sitamet" onclick="showContact()" class="mm-button">
+						<a class="menu-text" link=""><p onclick="">Contact</p></a>
 					</div>
 				</ul>
 				<script src="js\menu.js"></script>
 			</nav>
 		</div>
 	</div>
+	<div id="Introduction" class="content">Introduction</div>
+	<div id="Experience" class="content">Experience</div>
+	<div id="Portfolio" class="content">Portfolio</div>
+	<div id="Contact" class="content">Contact</div>
 </body>
 </html>
