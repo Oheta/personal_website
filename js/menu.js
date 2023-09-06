@@ -27,6 +27,7 @@ function placeChildrenRadial(parent_ref, radius, angle_min = 0, angle_max = 360,
 
     }
 }
+
 /** Shows the element containing [Introduction] */
 function showIntroduction(){
     let menuItem1_ref = document.getElementById("Introduction");
