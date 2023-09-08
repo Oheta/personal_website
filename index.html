@@ -1,46 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://rawgit.com/ironwallaby/delaunay/master/delaunay.js"></script>
+	<script src="https://requirejs.org/docs/release/2.1.15/minified/require.js"></script>
 	<link rel="stylesheet" href="main.css">
 	<script src="utils.js"></script>
 	<title>Theau Ebalard - Freelancer</title>
 </head>
 <body>
-	<div id="menu-bg">
-		<div id="eye-wrapper">
-			<div id="eye">
-				<div id="eyelid-t"></div>
-				<div id="eyelid-b"></div>
-				<div id="eyeball">
-					<div id="iris">
-						<div id="pupil"></div>
-					</div>
+	<canvas id="menu-bg">
+		<script src="js/bg_main.js"></script>
+	</canvas>
+	<div id="eye-wrapper">
+		<div id="eye">
+			<div id="eyelid-t"></div>
+			<div id="eyelid-b"></div>
+			<div id="eyeball">
+				<div id="iris">
+					<div id="pupil"></div>
 				</div>
 			</div>
-			<script src="js\eye_behavior.js"></script>
-			<nav style="margin: auto;">
-				<ul id="eye-mainMenu">
-					<div class="main-menu_item">
-						<input type="radio" name="mm-radio" value="lorem" onclick="showIntroduction()" class="mm-button">
-						<a class="menu-text" link=""><p onclick="">Introduction</p></a>
-					</div>
-					<div class="main-menu_item">
-						<input type="radio" name="mm-radio" value="ipsum" onclick="showExperience()" class="mm-button">
-						<a class="menu-text" link=""><p onclick="">Experience</p></a>
-					</div>
-					<div class="main-menu_item">
-						<input type="radio" name="mm-radio" value="dolor" onclick="showPortfolio()" class="mm-button">
-						<a class="menu-text" link=""><p onclick="">Portfolio</p></a>
-					</div>
-					<div class="main-menu_item">
-						<input type="radio" name="mm-radio" value="sitamet" onclick="showContact()" class="mm-button">
-						<a class="menu-text" link=""><p onclick="">Contact</p></a>
-					</div>
-				</ul>
-				<script src="js\menu.js"></script>
-			</nav>
 		</div>
+		<script src="js\eye_behavior.js"></script>
+		<nav style="margin: auto;">
+			<ul id="eye-mainMenu">
+				<div class="main-menu_item">
+					<input type="radio" name="mm-radio" value="lorem" onclick="showIntroduction()" class="mm-button">
+					<a class="menu-text" link=""><p onclick="">Introduction</p></a>
+				</div>
+				<div class="main-menu_item">
+					<input type="radio" name="mm-radio" value="ipsum" onclick="showExperience()" class="mm-button">
+					<a class="menu-text" link=""><p onclick="">Experience</p></a>
+				</div>
+				<div class="main-menu_item">
+					<input type="radio" name="mm-radio" value="dolor" onclick="showPortfolio()" class="mm-button">
+					<a class="menu-text" link=""><p onclick="">Portfolio</p></a>
+				</div>
+				<div class="main-menu_item">
+					<input type="radio" name="mm-radio" value="sitamet" onclick="showContact()" class="mm-button">
+					<a class="menu-text" link=""><p onclick="">Contact</p></a>
+				</div>
+			</ul>
+			<script src="js\menu.js"></script>
+		</nav>
 	</div>
 	<div id="Introduction" class="page-content">
 		<img src="./" id="intro-portrait">
@@ -60,7 +65,12 @@
 			<p>Thank you for visiting my corner of the web, and I hope you find inspiration and insight within these web pages. Whether you're here for professional collaboration, seeking innovative solutions, or simply looking for a fellow enthusiast in cooking, music, or gaming, I'm excited to connect with you and embark on new adventures together. Welcome to my world of innovation and exploration!</p>
 		</div>
 	</div>
-	<div id="Experience" class="page-content">Experience</div>
+	<div id="Experience" class="page-content">
+		<div id="jobSection">
+            <!-- Job entries are dynamically added here -->
+        </div>
+		<script src="js/jobSection.js"></script>
+	</div>
 	<div id="Portfolio" class="page-content">Portfolio</div>
 	<div id="Contact" class="page-content">Contact</div>
 </body>
