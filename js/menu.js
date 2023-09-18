@@ -28,49 +28,79 @@ function placeChildrenRadial(parent_ref, radius, angle_min = 0, angle_max = 360,
     }
 }
 
-/** Shows the element containing [Introduction] */
-function showIntroduction(){
+/** Shows the element selected by user */
+function showMenuItem(value){
     let menuItem1_ref = document.getElementById("Introduction");
     let menuItem2_ref = document.getElementById("Experience");
     let menuItem3_ref = document.getElementById("Portfolio");
     let menuItem4_ref = document.getElementById("Contact");
-    menuItem1_ref.style.left = "20vw";
-    menuItem2_ref.style.left = "120vw";
-    menuItem3_ref.style.left = "120vw";
-    menuItem4_ref.style.left = "120vw";
-}
-/** Shows the element containing [Experience] */
-function showExperience(){
-    let menuItem1_ref = document.getElementById("Introduction");
-    let menuItem2_ref = document.getElementById("Experience");
-    let menuItem3_ref = document.getElementById("Portfolio");
-    let menuItem4_ref = document.getElementById("Contact");
-    menuItem1_ref.style.left = "120vw";
-    menuItem2_ref.style.left = "20vw";
-    menuItem3_ref.style.left = "120vw";
-    menuItem4_ref.style.left = "120vw";
-}
-/** Shows the element containing [Portfolio] */
-function showPortfolio(){
-    let menuItem1_ref = document.getElementById("Introduction");
-    let menuItem2_ref = document.getElementById("Experience");
-    let menuItem3_ref = document.getElementById("Portfolio");
-    let menuItem4_ref = document.getElementById("Contact");
-    menuItem1_ref.style.left = "120vw";
-    menuItem2_ref.style.left = "120vw";
-    menuItem3_ref.style.left = "20vw";
-    menuItem4_ref.style.left = "120vw";
-}
-/** Shows the element containing [Contact] */
-function showContact(){
-    let menuItem1_ref = document.getElementById("Introduction");
-    let menuItem2_ref = document.getElementById("Experience");
-    let menuItem3_ref = document.getElementById("Portfolio");
-    let menuItem4_ref = document.getElementById("Contact");
-    menuItem1_ref.style.left = "120vw";
-    menuItem2_ref.style.left = "120vw";
-    menuItem3_ref.style.left = "120vw";
-    menuItem4_ref.style.left = "20vw";
+    let menuCkbx1_ref = document.getElementById("ckbx-intro");
+    let menuCkbx2_ref = document.getElementById("ckbx-exp");
+    let menuCkbx3_ref = document.getElementById("ckbx-ptfl");
+    let menuCkbx4_ref = document.getElementById("ckbx-contact");
+    console.log("value is ? : " + value);
+    console.log(menuCkbx1_ref.checked);
+    switch(value){
+        case "Introduction":
+            if(menuCkbx1_ref.checked==true)
+            {
+                menuItem1_ref.style.left = "20vw";
+                menuItem2_ref.style.left = "120vw";
+                menuItem3_ref.style.left = "120vw";
+                menuItem4_ref.style.left = "120vw";
+                menuCkbx2_ref.checked = false;
+                menuCkbx3_ref.checked = false;
+                menuCkbx4_ref.checked = false;
+                break;
+            }
+        case "Experience":
+            if(menuCkbx2_ref.checked==true)
+            {
+                menuItem1_ref.style.left = "120vw";
+                menuItem2_ref.style.left = "20vw";
+                menuItem3_ref.style.left = "120vw";
+                menuItem4_ref.style.left = "120vw";
+                menuCkbx1_ref.checked = false;
+                menuCkbx3_ref.checked = false;
+                menuCkbx4_ref.checked = false;
+                break;
+            }
+        case "Portfolio":
+            if(menuCkbx3_ref.checked==true)
+            {            
+                menuItem1_ref.style.left = "120vw";
+                menuItem2_ref.style.left = "120vw";
+                menuItem3_ref.style.left = "20vw";
+                menuItem4_ref.style.left = "120vw";
+                menuCkbx1_ref.checked = false;
+                menuCkbx2_ref.checked = false;
+                menuCkbx4_ref.checked = false;
+                break;
+            }
+        case "Contact":
+            if(menuCkbx4_ref.checked==true)
+            {
+                menuItem1_ref.style.left = "120vw";
+                menuItem2_ref.style.left = "120vw";
+                menuItem3_ref.style.left = "120vw";
+                menuItem4_ref.style.left = "20vw";
+                menuCkbx1_ref.checked = false;
+                menuCkbx2_ref.checked = false;
+                menuCkbx3_ref.checked = false;
+                break;
+            }
+        default:
+            menuItem1_ref.style.left = "120vw";
+            menuItem2_ref.style.left = "120vw";
+            menuItem3_ref.style.left = "120vw";
+            menuItem4_ref.style.left = "120vw";
+            menuCkbx1_ref.checked = false;
+            menuCkbx2_ref.checked = false;
+            menuCkbx3_ref.checked = false;
+            menuCkbx4_ref.checked = false;
+            console.log("inside switch default");
+            break;
+        }
 }
 
 placeChildrenRadial(menu_ref, 100, -60, 100);

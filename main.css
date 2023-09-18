@@ -126,15 +126,29 @@ body, html {
 #Portfolio{}
 #Contact{}
 
+.slideIn{
+    left: 20vw;
+}
+
 .page-content{
     background-color: white;
     height: 100vh;
     width: 80vw;
     position: absolute;
     transition: linear;
+    -webkit-animation: slide 0.5s forwards;
+    animation: slide 0.5s forwards;
     top: 0;
     left: 100%;
     overflow: scroll;
+}
+
+@-webkit-keyframes page-content {
+    100% { left: 0; }
+}
+
+@keyframes page-content {
+    100% { left: 0; }
 }
 
 #intro-portrait{

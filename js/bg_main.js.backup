@@ -36,9 +36,8 @@ var particleCount = 15,
   randomMotion = false,
   section = "",
   noiseLength = 1000,
-  noiseStrength = 1;
-  section = document.currentScript.getAttribute( "data-section" );
-console.log(section);
+  noiseStrength = 1,
+  section = this_js_script.attr('data-section');
   
 var canvas = document.getElementById('menu-bg'),
   //orbits = document.getElementById('orbits'),
@@ -53,17 +52,23 @@ var canvas = document.getElementById('menu-bg'),
   nScale = 0.5,
   nPos = {x: 0, y: 0},
   points = [],
-  vertices = [],
-  triangles = [],
+  pointsTL = [],
+  pointsTR = [],
+  pointsBL = [],
+  pointsBR = [],
   links = [],
-  particles = [],
-  flares = [],
-  triangles = [];
+  verticesTL = [],
+  verticesTR = [],
+  verticesBL = [],
+  verticesBR = [],
+  //  particles = [],
+  particlesTL = [],
+  particlesTR = [],
+  particlesBL = [],
+  particlesBR = [],
+  flares = [];
 
-
-  
-function init() {
-  console.log("into init");
+function init(section) {
   var i, j, k;
 
   // requestAnimFrame polyfill
@@ -100,30 +105,33 @@ function init() {
       case "top-left":
         p.x=random(0.1, 0.4, true);
         p.y=random(0.1, 0.4, true);
-        particles.push(p);
-        points.push([p.x*c, p.y*c]);
+        particlesTL.push(p);
+        pointsTL.push([p.x*c, p.y*c]);
         break;
-        case "top-right":
-          p.x=random(0.6, 0.9, true);
-          p.y=random(0.1, 0.4, true);
-          particles.push(p);
-          points.push([p.x*c, p.y*c]);
-          break;
-          case "bottom-left":
-            p.x=random(0.1, 0.4, true);
-            p.y=random(0.6, 0.9, true);
-        particles.push(p);
-        points.push([p.x*c, p.y*c]);
+      case "top-right":
+        p.x=random(0.6, 0.9, true);
+        p.y=random(0.1, 0.4, true);
+        particlesTR.push(p);
+        pointsTR.push([p.x*c, p.y*c]);
         break;
-        case "bottom-right":
-          p.x=random(0.6, 0.9, true);
-          p.y=random(0.6, 0.9, true);
-          particles.push(p);
-          points.push([p.x*c, p.y*c]);
-          break; 
-        }
-        console.log("creating particle at x:" + p.x + " y:" + p.y);
-      }
+      case "bottom-left":
+        p.x=random(0.1, 0.4, true);
+        p.y=random(0.6, 0.9, true);
+        particlesBL.push(p);
+        pointsBL.push([p.x*c, p.y*c]);
+        break;
+      case "bottom-right":
+        p.x=random(0.6, 0.9, true);
+        p.y=random(0.6, 0.9, true);
+        particlesBR.push(p);
+        pointsBR.push([p.x*c, p.y*c]);
+        break; 
+    }
+  }
+}
+function drawConstellation(points, particles, vertices)
+{
+  var triangles = [];
   //console.log(JSON.stringify(points));
 
   // Delaunay triangulation
@@ -202,7 +210,7 @@ function init() {
   })();
 }
 
-function render() {
+function render(vertices, particles) {
   if (randomMotion) {
     n++;
     if (n >= noiseLength) {
@@ -600,4 +608,4 @@ function linkParticlesToNodes(){
 
 
 // init
-if (canvas) init();
+if (canvas) init(); drawConstellation(pointsTL, particlesTL);

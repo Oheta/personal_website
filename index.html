@@ -12,7 +12,10 @@
 </head>
 <body>
 	<canvas id="menu-bg">
-		<script src="js/bg_main.js"></script>
+		<script src="js/bg_main.js" id="constellation-script-tl" data-section="top-left"></script>
+		<script src="js/bg_main.js" id="constellation-script-tr" data-section="top-right"></script>
+		<script src="js/bg_main.js" id="constellation-script-bl" data-section="bottom-left"></script>
+		<script src="js/bg_main.js" id="constellation-script-br" data-section="bottom-right"></script>
 	</canvas>
 	<div id="eye-wrapper">
 		<div id="eye">
@@ -28,20 +31,20 @@
 		<nav style="margin: auto;">
 			<ul id="eye-mainMenu">
 				<div class="main-menu_item">
-					<input type="radio" name="mm-radio" value="lorem" onclick="showIntroduction()" class="mm-button">
-					<a class="menu-text" link=""><p onclick="">Introduction</p></a>
+					<input type="checkbox" id="ckbx-intro" onclick="showMenuItem(this.value)" value="Introduction" class="mm-button">
+					<a class="menu-text" link=""><p>Introduction</p></a>
 				</div>
 				<div class="main-menu_item">
-					<input type="radio" name="mm-radio" value="ipsum" onclick="showExperience()" class="mm-button">
-					<a class="menu-text" link=""><p onclick="">Experience</p></a>
+					<input type="checkbox" id="ckbx-exp" onclick="showMenuItem(this.value)" value="Experience" class="mm-button">
+					<a class="menu-text" link=""><p>Experience</p></a>
 				</div>
 				<div class="main-menu_item">
-					<input type="radio" name="mm-radio" value="dolor" onclick="showPortfolio()" class="mm-button">
-					<a class="menu-text" link=""><p onclick="">Portfolio</p></a>
+					<input type="checkbox" id="ckbx-ptfl" onclick="showMenuItem(this.value)" value="Portfolio" class="mm-button">
+					<a class="menu-text" link=""><p>Portfolio</p></a>
 				</div>
 				<div class="main-menu_item">
-					<input type="radio" name="mm-radio" value="sitamet" onclick="showContact()" class="mm-button">
-					<a class="menu-text" link=""><p onclick="">Contact</p></a>
+					<input type="checkbox" id="ckbx-contact" onclick="showMenuItem(this.value)" value="Contact" class="mm-button">
+					<a class="menu-text" link=""><p>Contact</p></a>
 				</div>
 			</ul>
 			<script src="js\menu.js"></script>
