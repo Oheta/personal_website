@@ -103,4 +103,4 @@ function showMenuItem(value){
         }
 }
 
-placeChildrenRadial(menu_ref, 100, -60, 100);
+placeChildrenRadial(menu_ref, 100, -45, 315);
