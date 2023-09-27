@@ -17,8 +17,8 @@ var particleCount = 6,
   flareSizeMultiplier = 100,
   lineWidth = 1,
   linkChance = 75, // chance per frame of link, higher = smaller chance
-  linkLengthMin = 5, // min linked vertices
-  linkLengthMax = 7, // max linked vertices
+  linkLengthMin = 5, // min linked verticesTR
+  linkLengthMax = 7, // max linked verticesTR
   linkOpacity = 0.25; // number between 0 & 1
   linkFade = 90, // link fade-out frames
   linkSpeed = 1, // distance a link travels in 1 frame
@@ -40,25 +40,24 @@ var particleCount = 6,
   section = document.currentScript.getAttribute( "data-section" );
 console.log(section);
 
-var canvas = document.getElementById('menu-bg'),
+var canvas = document.getElementById('canvas-TR'),
   //orbits = document.getElementById('orbits'),
   context = canvas.getContext('2d'),
   mouse = { x: 0, y: 0 },
   m = {},
   r = 0,
-  c = 1000, // multiplier for delaunay points, since floats too small can mess up the algorithm
+  c = 1000, // multiplier for delaunay pointsTR, since floats too small can mess up the algorithm
   n = 0,
   nAngle = (Math.PI * 2) / noiseLength,
   nRad = 100,
   nScale = 0.5,
   nPos = {x: 0, y: 0},
-  points = [],
-  vertices = [],
-  triangles = [],
-  links = [],
-  particles = [],
-  flares = [],
-  triangles = [];
+  pointsTR = [],
+  verticesTR = [],
+  linksTR = [],
+  particlesTR = [],
+  flaresTR = [],
+  trianglesTR = [];
   
 function build() {
   console.log("into build");
@@ -92,75 +91,51 @@ function build() {
   mouse.y = canvas.clientHeight / 2;
 
   // Create particle positions
-  for (i = 0; i < particleCount; i++) {
+  for (i = 0; i < particleCount; i++) 
+  {
     var p = new Particle();
-    switch(section){
-      case "top-left":
-        p.x=random(0.1, 0.4, true);
-        p.y=random(0.1, 0.4, true);
-        particles.push(p);
-        points.push([p.x*c, p.y*c]);
-        break;
-        case "top-right":
-          p.x=random(0.6, 0.9, true);
-          p.y=random(0.1, 0.4, true);
-          particles.push(p);
-          points.push([p.x*c, p.y*c]);
-          break;
-          case "bottom-left":
-            p.x=random(0.1, 0.4, true);
-            p.y=random(0.6, 0.9, true);
-        particles.push(p);
-        points.push([p.x*c, p.y*c]);
-        break;
-        case "bottom-right":
-          p.x=random(0.6, 0.9, true);
-          p.y=random(0.6, 0.9, true);
-          particles.push(p);
-          points.push([p.x*c, p.y*c]);
-          break; 
-        }
-        console.log("creating particle at x:" + p.x + " y:" + p.y);
-      }
-  //console.log(JSON.stringify(points));
+    particlesTR.push(p);
+    pointsTR.push([p.x*c, p.y*c]);
+  }
+  //console.log(JSON.stringify(pointsTR));
 
   // Delaunay triangulation
   //var Delaunay = require('delaunay-fast');
-  vertices = Delaunay.triangulate(points);
-  //console.log(JSON.stringify(vertices));
-  // Create an array of "triangles" (groups of 3 indices)
+  verticesTR = Delaunay.triangulate(pointsTR);
+  //console.log(JSON.stringify(verticesTR));
+  // Create an array of "trianglesTR" (groups of 3 indices)
   var tri = [];
-  for (i = 0; i < vertices.length; i++) {
+  for (i = 0; i < verticesTR.length; i++) {
     if (tri.length == 3) {
-      triangles.push(tri);
+      trianglesTR.push(tri);
       tri = [];
     }
-    tri.push(vertices[i]);
+    tri.push(verticesTR[i]);
   }
-  //console.log(JSON.stringify(triangles));
+  //console.log(JSON.stringify(trianglesTR));
 
-  // Tell all the particles who their neighbors are
-  for (i = 0; i < particles.length; i++) {
+  // Tell all the particlesTR who their neighbors are
+  for (i = 0; i < particlesTR.length; i++) {
     // Loop through all tirangles
-    for (j = 0; j < triangles.length; j++) {
+    for (j = 0; j < trianglesTR.length; j++) {
       // Check if this particle's index is in this triangle
-      k = triangles[j].indexOf(i);
-      // If it is, add its neighbors to the particles contacts list
+      k = trianglesTR[j].indexOf(i);
+      // If it is, add its neighbors to the particlesTR contacts list
       if (k !== -1) {
-        triangles[j].forEach(function(value, index, array) {
-          if (value !== i && particles[i].neighbors.indexOf(value) == -1) {
-            particles[i].neighbors.push(value);
+        trianglesTR[j].forEach(function(value, index, array) {
+          if (value !== i && particlesTR[i].neighbors.indexOf(value) == -1) {
+            particlesTR[i].neighbors.push(value);
           }
         });
       }
     }
   }
-  //console.log(JSON.stringify(particles));
+  //console.log(JSON.stringify(particlesTR));
 
   if (renderFlares) {
     // Create flare positions
     for (i = 0; i < flareCount; i++) {
-      flares.push(new Flare());
+      flaresTR.push(new Flare());
     }
   }
 
@@ -200,6 +175,7 @@ function build() {
   })();
 }
 
+
 function render() {
   if (randomMotion) {
     n++;
@@ -220,21 +196,21 @@ function render() {
   }
 
   if (renderParticles) {
-    // Render particles
+    // Render particlesTR
     for (var i = 0; i < particleCount; i++) {
-      particles[i].render();
+      particlesTR[i].render();
     }
   }
 
   if (renderMesh) {
     // Render all lines
     context.beginPath();
-    for (var v = 0; v < vertices.length-1; v++) {
+    for (var v = 0; v < verticesTR.length-1; v++) {
       // Splits the array into triplets
       if ((v + 1) % 3 === 0) { continue; }
 
-      var p1 = particles[vertices[v]],
-        p2 = particles[vertices[v+1]];
+      var p1 = particlesTR[verticesTR[v]],
+        p2 = particlesTR[verticesTR[v+1]];
 
       //console.log('Line: '+p1.x+','+p1.y+'->'+p2.x+','+p2.y);
 
@@ -254,26 +230,26 @@ function render() {
     // Possibly start a new link
     if (random(0, linkChance) == linkChance) {
       var length = random(linkLengthMin, linkLengthMax);
-      var start = random(0, particles.length-1);
+      var start = random(0, particlesTR.length-1);
       startLink(start, length);
     }
 
-    // Render existing links
+    // Render existing linksTR
     // Iterate in reverse so that removing items doesn't affect the loop
-    for (var l = links.length-1; l >= 0; l--) {
-      if (links[l] && !links[l].finished) {
-        links[l].render();
+    for (var l = linksTR.length-1; l >= 0; l--) {
+      if (linksTR[l] && !linksTR[l].finished) {
+        linksTR[l].render();
       }
       else {
-        delete links[l];
+        delete linksTR[l];
       }
     }
   }
 
   if (renderFlares) {
-    // Render flares
+    // Render flaresTR
     for (var j = 0; j < flareCount; j++) {
-      flares[j].render();
+      flaresTR[j].render();
     }
   }
 
@@ -294,13 +270,13 @@ function resize() {
 
 function startLink(vertex, length) {
   //console.log('LINK from '+vertex+' (length '+length+')');
-  links.push(new Link(vertex, length));
+  linksTR.push(new Link(vertex, length));
 }
 
 // Particle class
 var Particle = function() {
-  this.x = random(0.2, 0.8, true);
-  this.y = random(0.2, 0.8, true);
+  this.x = random(0.1, 0.9, true);
+  this.y = random(0.1, 0.9, true);
   this.z = random(0,4);
   this.color = color;
   this.opacity = random(0.4,1,true);
@@ -395,14 +371,14 @@ Link.prototype.render = function() {
   // 2. Fade out
   // 3. Finished (delete me)
 
-  var i, p, pos, points;
+  var i, p, pos, pointsTR;
 
   switch (this.stage) {
     // VERTEX COLLECTION STAGE
     case 0:
 
       // Grab the last member of the link
-      var last = particles[this.verts[this.verts.length-1]];
+      var last = particlesTR[this.verts[this.verts.length-1]];
       //console.log(JSON.stringify(last));
       if (last && last.neighbors && last.neighbors.length > 0) {
         // Grab a random neighbor
@@ -422,8 +398,8 @@ Link.prototype.render = function() {
       if (this.verts.length >= this.length) {
         // Calculate all distances at once
         for (i = 0; i < this.verts.length-1; i++) {
-          var p1 = particles[this.verts[i]],
-            p2 = particles[this.verts[i+1]],
+          var p1 = particlesTR[this.verts[i]],
+            p2 = particlesTR[this.verts[i+1]],
             dx = p1.x - p2.x,
             dy = p1.y - p2.y,
             dist = Math.sqrt(dx*dx + dy*dy);
@@ -442,14 +418,14 @@ Link.prototype.render = function() {
     case 1:
       if (this.distances.length > 0) {
 
-        points = [];
+        pointsTR = [];
         //var a = 1;
 
-        // Gather all points already linked
+        // Gather all pointsTR already linked
         for (i = 0; i < this.linked.length; i++) {
-          p = particles[this.linked[i]];
+          p = particlesTR[this.linked[i]];
           pos = position(p.x, p.y, p.z);
-          points.push([pos.x, pos.y]);
+          pointsTR.push([pos.x, pos.y]);
         }
 
         var linkSpeedRel = linkSpeed * 0.00001 * canvas.width;
@@ -462,9 +438,9 @@ Link.prototype.render = function() {
           //console.log(this.verts[0]+' reached vertex '+(this.linked.length+1)+' of '+this.verts.length);
 
           this.linked.push(this.verts[this.linked.length]);
-          p = particles[this.linked[this.linked.length-1]];
+          p = particlesTR[this.linked[this.linked.length-1]];
           pos = position(p.x, p.y, p.z);
-          points.push([pos.x, pos.y]);
+          pointsTR.push([pos.x, pos.y]);
 
           if (this.linked.length >= this.verts.length) {
             //console.log(this.verts[0]+' moving to stage 2 (1)');
@@ -474,8 +450,8 @@ Link.prototype.render = function() {
         else {
           // We're still travelling to the next point, get coordinates at travel distance
           // http://math.stackexchange.com/a/85582
-          var a = particles[this.linked[this.linked.length-1]],
-            b = particles[this.verts[this.linked.length]],
+          var a = particlesTR[this.linked[this.linked.length-1]],
+            b = particlesTR[this.verts[this.linked.length]],
             t = d - this.traveled,
             x = ((this.traveled * b.x) + (t * a.x)) / d,
             y = ((this.traveled * b.y) + (t * a.y)) / d,
@@ -485,10 +461,10 @@ Link.prototype.render = function() {
 
           //console.log(this.verts[0]+' traveling to vertex '+(this.linked.length+1)+' of '+this.verts.length+' ('+this.traveled+' of '+this.distances[this.linked.length]+')');
 
-          points.push([pos.x, pos.y]);
+          pointsTR.push([pos.x, pos.y]);
         }
 
-        this.drawLine(points);
+        this.drawLine(pointsTR);
       }
       else {
         //console.log(this.verts[0]+' prematurely moving to stage 3 (1)');
@@ -503,15 +479,15 @@ Link.prototype.render = function() {
         if (this.fade < linkFade) {
           this.fade++;
 
-          // Render full link between all vertices and fade over time
-          points = [];
+          // Render full link between all verticesTR and fade over time
+          pointsTR = [];
           var alpha = (1 - (this.fade / linkFade)) * linkOpacity;
           for (i = 0; i < this.verts.length; i++) {
-            p = particles[this.verts[i]];
+            p = particlesTR[this.verts[i]];
             pos = position(p.x, p.y, p.z);
-            points.push([pos.x, pos.y]);
+            pointsTR.push([pos.x, pos.y]);
           }
-          this.drawLine(points, alpha);
+          this.drawLine(pointsTR, alpha);
         }
         else {
           //console.log(this.verts[0]+' moving to stage 3 (2a)');
@@ -533,16 +509,16 @@ Link.prototype.render = function() {
     break;
   }
 };
-Link.prototype.drawLine = function(points, alpha) {
+Link.prototype.drawLine = function(pointsTR, alpha) {
   if (typeof alpha !== 'number') alpha = linkOpacity;
 
-  if (points.length > 1 && alpha > 0) {
+  if (pointsTR.length > 1 && alpha > 0) {
     //console.log(this.verts[0]+': Drawing line '+alpha);
     context.globalAlpha = alpha;
     context.beginPath();
-    for (var i = 0; i < points.length-1; i++) {
-      context.moveTo(points[i][0], points[i][1]);
-      context.lineTo(points[i+1][0], points[i+1][1]);
+    for (var i = 0; i < pointsTR.length-1; i++) {
+      context.moveTo(pointsTR[i][0], pointsTR[i][1]);
+      context.lineTo(pointsTR[i+1][0], pointsTR[i+1][1]);
     }
     context.strokeStyle = color;
     context.lineWidth = lineWidth;
@@ -590,7 +566,7 @@ function random(min, max, float) {
 function linkParticlesToNodes(){
   //Select leftmost particle
   let leftmost;
-  particles.forEach((particle) => {if(particle.x < leftmost.x) leftmost = particle;});
+  particlesTR.forEach((particle) => {if(particle.x < leftmost.x) leftmost = particle;});
 
 }
 

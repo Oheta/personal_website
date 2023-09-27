@@ -8,14 +8,20 @@
 	<script src="https://requirejs.org/docs/release/2.1.15/minified/require.js"></script>
 	<link rel="stylesheet" href="main.css">
 	<script src="utils.js"></script>
-	<title>Theau Ebalard - Freelancer</title>
+	<title>Theau Ebalard - Freelance Software Engineering</title>
 </head>
 <body>
-	<canvas id="menu-bg">
-		<script src="js/bg_main.js" data-section="top-left"></script>
-		<script src="js/bg_main.js" data-section="top-right"></script>
-		<!--<script src="js/bg_main.js" data-section="bottom-left"></script>
-		<script src="js/bg_main.js" data-section="bottom-right"></script> -->
+	<canvas class="constellation-bg" id="canvas-TL">
+		<script src="js/constellation_TL.js" data-section="top-left"></script>
+	</canvas>
+	<canvas class="constellation-bg" id="canvas-TR">
+		<script src="js/constellation_TR.js" data-section="top-right"></script>
+	</canvas>
+	<canvas class="constellation-bg" id="canvas-BR">
+		<script src="js/constellation_BR.js" data-section="top-right"></script>
+	</canvas>
+	<canvas class="constellation-bg" id="canvas-BL">
+		<script src="js/constellation_BL.js" data-section="top-right"></script>
 	</canvas>
 	<div id="eye-wrapper">
 		<div id="eye">

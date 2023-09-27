@@ -3,6 +3,8 @@
  * Inspired by Steve Courtney's poster art for Celsius GS's Drifter - http://celsiusgs.com/drifter/posters.php
  * by Cory Hughart - http://coryhughart.com
  * disclaimer from Theau Ebalard : modifications and additions were made to accomodate my own website
+ * There is a lot of code dupe, but I unfortunately couldn't obtain the desired effect by treating all constellations within a single file. 
+ * It does in sequence what I want to happen simulteanousely
  */
 
 // Settings
@@ -16,9 +18,9 @@ var particleCount = 6,
   flareSizeBase = 100,
   flareSizeMultiplier = 100,
   lineWidth = 1,
-  linkChance = 75, // chance per frame of link, higher = smaller chance
-  linkLengthMin = 5, // min linked vertices
-  linkLengthMax = 7, // max linked vertices
+  linkChance = 50, // chance per frame of link, higher = smaller chance
+  linkLengthMin = 5, // min linked verticesTL
+  linkLengthMax = 7, // max linked verticesTL
   linkOpacity = 0.25; // number between 0 & 1
   linkFade = 90, // link fade-out frames
   linkSpeed = 1, // distance a link travels in 1 frame
@@ -40,25 +42,24 @@ var particleCount = 6,
   section = document.currentScript.getAttribute( "data-section" );
 console.log(section);
 
-var canvas = document.getElementById('menu-bg'),
+var canvasTL = document.getElementById('canvas-TL'),
   //orbits = document.getElementById('orbits'),
-  context = canvas.getContext('2d'),
+  contextTL = canvasTL.getContext('2d'),
   mouse = { x: 0, y: 0 },
   m = {},
   r = 0,
-  c = 1000, // multiplier for delaunay points, since floats too small can mess up the algorithm
+  c = 1000, // multiplier for delaunay pointsTL, since floats too small can mess up the algorithm
   n = 0,
   nAngle = (Math.PI * 2) / noiseLength,
   nRad = 100,
   nScale = 0.5,
   nPos = {x: 0, y: 0},
-  points = [],
-  vertices = [],
-  triangles = [],
-  links = [],
-  particles = [],
-  flares = [],
-  triangles = [];
+  pointsTL = [],
+  verticesTL = [],
+  linksTL = [],
+  particlesTL = [],
+  flaresTL = [],
+  trianglesTL = [];
   
 function build() {
   console.log("into build");
@@ -85,82 +86,58 @@ function build() {
   }
   bgImg.src = bgURL;
   */
-  // Size canvas
+  // Size canvasTL
   resize();
 
-  mouse.x = canvas.clientWidth / 2;
-  mouse.y = canvas.clientHeight / 2;
+  mouse.x = canvasTL.clientWidth / 2;
+  mouse.y = canvasTL.clientHeight / 2;
 
   // Create particle positions
-  for (i = 0; i < particleCount; i++) {
+  for (i = 0; i < particleCount; i++) 
+  {
     var p = new Particle();
-    switch(section){
-      case "top-left":
-        p.x=random(0.1, 0.4, true);
-        p.y=random(0.1, 0.4, true);
-        particles.push(p);
-        points.push([p.x*c, p.y*c]);
-        break;
-        case "top-right":
-          p.x=random(0.6, 0.9, true);
-          p.y=random(0.1, 0.4, true);
-          particles.push(p);
-          points.push([p.x*c, p.y*c]);
-          break;
-          case "bottom-left":
-            p.x=random(0.1, 0.4, true);
-            p.y=random(0.6, 0.9, true);
-        particles.push(p);
-        points.push([p.x*c, p.y*c]);
-        break;
-        case "bottom-right":
-          p.x=random(0.6, 0.9, true);
-          p.y=random(0.6, 0.9, true);
-          particles.push(p);
-          points.push([p.x*c, p.y*c]);
-          break; 
-        }
-        console.log("creating particle at x:" + p.x + " y:" + p.y);
-      }
-  //console.log(JSON.stringify(points));
+    particlesTL.push(p);
+    pointsTL.push([p.x*c, p.y*c]);
+  }
+  //console.log(JSON.stringify(pointsTL));
 
   // Delaunay triangulation
   //var Delaunay = require('delaunay-fast');
-  vertices = Delaunay.triangulate(points);
-  //console.log(JSON.stringify(vertices));
-  // Create an array of "triangles" (groups of 3 indices)
+  verticesTL = Delaunay.triangulate(pointsTL);
+  //console.log(JSON.stringify(verticesTL));
+  // Create an array of "trianglesTL" (groups of 3 indices)
   var tri = [];
-  for (i = 0; i < vertices.length; i++) {
+  for (i = 0; i < verticesTL.length; i++) {
     if (tri.length == 3) {
-      triangles.push(tri);
+      trianglesTL.push(tri);
       tri = [];
     }
-    tri.push(vertices[i]);
+    tri.push(verticesTL[i]);
   }
-  //console.log(JSON.stringify(triangles));
+  //console.log(JSON.stringify(trianglesTL));
 
-  // Tell all the particles who their neighbors are
-  for (i = 0; i < particles.length; i++) {
+  // Tell all the particlesTL who their neighbors are
+  for (i = 0; i < particlesTL.length; i++) {
     // Loop through all tirangles
-    for (j = 0; j < triangles.length; j++) {
+    for (j = 0; j < trianglesTL.length; j++) {
       // Check if this particle's index is in this triangle
-      k = triangles[j].indexOf(i);
-      // If it is, add its neighbors to the particles contacts list
+      k = trianglesTL[j].indexOf(i);
+      // If it is, add its neighbors to the particlesTL contacts list
       if (k !== -1) {
-        triangles[j].forEach(function(value, index, array) {
-          if (value !== i && particles[i].neighbors.indexOf(value) == -1) {
-            particles[i].neighbors.push(value);
+        trianglesTL[j].forEach(function(value, index, array) {
+          if (value !== i && particlesTL[i].neighbors.indexOf(value) == -1) {
+            particlesTL[i].neighbors.push(value);
           }
         });
       }
     }
   }
-  //console.log(JSON.stringify(particles));
+  //console.log(JSON.stringify(particlesTL));
 
   if (renderFlares) {
     // Create flare positions
     for (i = 0; i < flareCount; i++) {
-      flares.push(new Flare());
+      flaresTL.push(new Flare());
     }
   }
 
@@ -170,9 +147,9 @@ function build() {
   if ('ontouchstart' in document.documentElement && window.DeviceOrientationEvent) {
     console.log('Using device orientation');
     window.addEventListener('deviceorientation', function(e) {
-      mouse.x = (canvas.clientWidth / 2) - ((e.gamma / 90) * (canvas.clientWidth / 2) * 2);
-      mouse.y = (canvas.clientHeight / 2) - ((e.beta / 90) * (canvas.clientHeight / 2) * 2);
-      //console.log('Center: x:'+(canvas.clientWidth/2)+' y:'+(canvas.clientHeight/2));
+      mouse.x = (canvasTL.clientWidth / 2) - ((e.gamma / 90) * (canvasTL.clientWidth / 2) * 2);
+      mouse.y = (canvasTL.clientHeight / 2) - ((e.beta / 90) * (canvasTL.clientHeight / 2) * 2);
+      //console.log('Center: x:'+(canvasTL.clientWidth/2)+' y:'+(canvasTL.clientHeight/2));
       //console.log('Orientation: x:'+mouse.x+' ('+e.gamma+') y:'+mouse.y+' ('+e.beta+')');
     }, true);
   }
@@ -194,13 +171,16 @@ function build() {
 
   // Animation loop
   (function animloop(){
+    console.log("anim loop TL");
     requestAnimFrame(animloop);
     resize();
-    render();
+    renderTL();
   })();
 }
 
-function render() {
+
+function renderTL() {
+  console.log("start renderTL()");
   if (randomMotion) {
     n++;
     if (n >= noiseLength) {
@@ -212,75 +192,81 @@ function render() {
   }
 
   // Clear
-  context.clearRect(0, 0, canvas.width, canvas.height);
+  contextTL.clearRect(0, 0, canvasTL.width, canvasTL.height);
 
   if (blurSize > 0) {
-    context.shadowBlur = blurSize;
-    context.shadowColor = color;
+    contextTL.shadowBlur = blurSize;
+    contextTL.shadowColor = color;
   }
 
   if (renderParticles) {
-    // Render particles
+    // Render particlesTL
     for (var i = 0; i < particleCount; i++) {
-      particles[i].render();
+      particlesTL[i].render();
     }
   }
 
   if (renderMesh) {
     // Render all lines
-    context.beginPath();
-    for (var v = 0; v < vertices.length-1; v++) {
+    contextTL.beginPath();
+    for (var v = 0; v < verticesTL.length-1; v++) {
       // Splits the array into triplets
       if ((v + 1) % 3 === 0) { continue; }
 
-      var p1 = particles[vertices[v]],
-        p2 = particles[vertices[v+1]];
+      var p1 = particlesTL[verticesTL[v]],
+        p2 = particlesTL[verticesTL[v+1]];
 
       //console.log('Line: '+p1.x+','+p1.y+'->'+p2.x+','+p2.y);
 
       var pos1 = position(p1.x, p1.y, p1.z),
         pos2 = position(p2.x, p2.y, p2.z);
 
-      context.moveTo(pos1.x, pos1.y);
-      context.lineTo(pos2.x, pos2.y);
+      contextTL.moveTo(pos1.x, pos1.y);
+      contextTL.lineTo(pos2.x, pos2.y);
     }
-    context.strokeStyle = color;
-    context.lineWidth = lineWidth;
-    context.stroke();
-    context.closePath();
+    contextTL.strokeStyle = color;
+    contextTL.lineWidth = lineWidth;
+    contextTL.stroke();
+    contextTL.closePath();
   }
 
   if (renderLinks) {
+    console.log("build/renderlinks condition");
     // Possibly start a new link
-    if (random(0, linkChance) == linkChance) {
+    let randomL = random(0, linkChance);
+    console.log("randomL = ", randomL);
+    if (randomL == linkChance) {
+      console.log("inside condi");
       var length = random(linkLengthMin, linkLengthMax);
-      var start = random(0, particles.length-1);
-      startLink(start, length);
+      var start = random(0, particlesTL.length-1);
+      console.log("starting link : start = ", start, " length = ", length);
+      startLinkTL(start, length);
     }
 
-    // Render existing links
+    // Render existing linksTL
     // Iterate in reverse so that removing items doesn't affect the loop
-    for (var l = links.length-1; l >= 0; l--) {
-      if (links[l] && !links[l].finished) {
-        links[l].render();
+    for (var l = linksTL.length-1; l >= 0; l--) {
+      console.log("build/renderlinks condi/for loop");
+      if (linksTL[l] && !linksTL[l].finished) {
+        linksTL[l].render();
       }
       else {
-        delete links[l];
+        delete linksTL[l];
       }
     }
   }
 
   if (renderFlares) {
-    // Render flares
+    // Render flaresTL
     for (var j = 0; j < flareCount; j++) {
-      flares[j].render();
+      flaresTL[j].render();
     }
   }
 
   /*
   if (orbitTilt) {
-    var tiltX = -(((canvas.clientWidth / 2) - mouse.x + ((nPos.x - 0.5) * noiseStrength)) * tilt),
-      tiltY = (((canvas.clientHeight / 2) - mouse.y + ((nPos.y - 0.5) * noiseStrength)) * tilt);
+    var tiltX = -(((canvasTL.clientWidth / 2) - mouse.x + ((nPos.x - 0.5) * noiseStrength)) * tilt),
+      tiltY = (((canvasTL.clientHeight / 2) - mouse.y + ((nPos.y - 0.5) * noiseStrength)) * tilt);
 
     orbits.style.transform = 'rotateY('+tiltX+'deg) rotateX('+tiltY+'deg)';
   }
@@ -288,19 +274,19 @@ function render() {
 }
 
 function resize() {
-  canvas.width = window.innerWidth * (window.devicePixelRatio || 1);
-  canvas.height = canvas.width * (canvas.clientHeight / canvas.clientWidth);
+  canvasTL.width = window.innerWidth * (window.devicePixelRatio || 1);
+  canvasTL.height = canvasTL.width * (canvasTL.clientHeight / canvasTL.clientWidth);
 }
 
-function startLink(vertex, length) {
-  //console.log('LINK from '+vertex+' (length '+length+')');
-  links.push(new Link(vertex, length));
+function startLinkTL(vertex, length) {
+  console.log('LINK from '+vertex+' (length '+length+')');
+  linksTL.push(new LinkTL(vertex, length));
 }
 
 // Particle class
 var Particle = function() {
-  this.x = random(0.2, 0.8, true);
-  this.y = random(0.2, 0.8, true);
+  this.x = random(0.1, 0.9, true);
+  this.y = random(0.1, 0.9, true);
   this.z = random(0,4);
   this.color = color;
   this.opacity = random(0.4,1,true);
@@ -322,26 +308,26 @@ Particle.prototype.render = function() {
     if (o < 0) o = 0;
   }
 
-  context.fillStyle = this.color;
-  context.globalAlpha = o;
-  context.beginPath();
-  context.arc(pos.x, pos.y, r, 0, 2 * Math.PI, false);
-  context.fill();
-  context.closePath();
+  contextTL.fillStyle = this.color;
+  contextTL.globalAlpha = o;
+  contextTL.beginPath();
+  contextTL.arc(pos.x, pos.y, r, 0, 2 * Math.PI, false);
+  contextTL.fill();
+  contextTL.closePath();
 
   if (renderParticleGlare) {
-    context.globalAlpha = o * glareOpacityMultiplier;
+    contextTL.globalAlpha = o * glareOpacityMultiplier;
     /*
-    context.ellipse(pos.x, pos.y, r * 30, r, 90 * (Math.PI / 180), 0, 2 * Math.PI, false);
-    context.fill();
-    context.closePath();
+    contextTL.ellipse(pos.x, pos.y, r * 30, r, 90 * (Math.PI / 180), 0, 2 * Math.PI, false);
+    contextTL.fill();
+    contextTL.closePath();
     */
-    context.ellipse(pos.x, pos.y, r * 100, r, (glareAngle - ((nPos.x - 0.5) * noiseStrength * motion)) * (Math.PI / 180), 0, 2 * Math.PI, false);
-    context.fill();
-    context.closePath();
+    contextTL.ellipse(pos.x, pos.y, r * 100, r, (glareAngle - ((nPos.x - 0.5) * noiseStrength * motion)) * (Math.PI / 180), 0, 2 * Math.PI, false);
+    contextTL.fill();
+    contextTL.closePath();
   }
 
-  context.globalAlpha = 1;
+  contextTL.globalAlpha = 1;
 };
 
 // Flare class
@@ -358,27 +344,27 @@ Flare.prototype.render = function() {
 
   // Feathered circles
   /*
-  var grad = context.createRadialGradient(x+r,y+r,0,x+r,y+r,r);
+  var grad = contextTL.createRadialGradient(x+r,y+r,0,x+r,y+r,r);
   grad.addColorStop(0, 'rgba(255,255,255,'+f.o+')');
   grad.addColorStop(0.8, 'rgba(255,255,255,'+f.o+')');
   grad.addColorStop(1, 'rgba(255,255,255,0)');
-  context.fillStyle = grad;
-  context.beginPath();
-  context.fillRect(x, y, r*2, r*2);
-  context.closePath();
+  contextTL.fillStyle = grad;
+  contextTL.beginPath();
+  contextTL.fillRect(x, y, r*2, r*2);
+  contextTL.closePath();
   */
 
-  context.beginPath();
-  context.globalAlpha = this.opacity;
-  context.arc(pos.x, pos.y, r, 0, 2 * Math.PI, false);
-  context.fillStyle = this.color;
-  context.fill();
-  context.closePath();
-  context.globalAlpha = 1;
+  contextTL.beginPath();
+  contextTL.globalAlpha = this.opacity;
+  contextTL.arc(pos.x, pos.y, r, 0, 2 * Math.PI, false);
+  contextTL.fillStyle = this.color;
+  contextTL.fill();
+  contextTL.closePath();
+  contextTL.globalAlpha = 1;
 };
 
-// Link class
-var Link = function(startVertex, numPoints) {
+// LinkTL class
+var LinkTL = function(startVertex, numPoints) {
   this.length = numPoints;
   this.verts = [startVertex];
   this.stage = 0;
@@ -388,21 +374,21 @@ var Link = function(startVertex, numPoints) {
   this.fade = 0;
   this.finished = false;
 };
-Link.prototype.render = function() {
+LinkTL.prototype.render = function() {
   // Stages:
   // 0. Vertex collection
   // 1. Render line reaching from vertex to vertex
   // 2. Fade out
   // 3. Finished (delete me)
 
-  var i, p, pos, points;
-
+  var i, p, pos, pointsTL;
+  console.log("inside LinkTL.render()");
   switch (this.stage) {
     // VERTEX COLLECTION STAGE
     case 0:
-
+      console.log("class LinkTL/render case 0: vertex collection");
       // Grab the last member of the link
-      var last = particles[this.verts[this.verts.length-1]];
+      var last = particlesTL[this.verts[this.verts.length-1]];
       //console.log(JSON.stringify(last));
       if (last && last.neighbors && last.neighbors.length > 0) {
         // Grab a random neighbor
@@ -422,8 +408,8 @@ Link.prototype.render = function() {
       if (this.verts.length >= this.length) {
         // Calculate all distances at once
         for (i = 0; i < this.verts.length-1; i++) {
-          var p1 = particles[this.verts[i]],
-            p2 = particles[this.verts[i+1]],
+          var p1 = particlesTL[this.verts[i]],
+            p2 = particlesTL[this.verts[i+1]],
             dx = p1.x - p2.x,
             dy = p1.y - p2.y,
             dist = Math.sqrt(dx*dx + dy*dy);
@@ -440,19 +426,20 @@ Link.prototype.render = function() {
 
     // RENDER LINE ANIMATION STAGE
     case 1:
+      console.log("class LinkTL/render case 1: render anim");
       if (this.distances.length > 0) {
 
-        points = [];
+        pointsTL = [];
         //var a = 1;
 
-        // Gather all points already linked
+        // Gather all pointsTL already linked
         for (i = 0; i < this.linked.length; i++) {
-          p = particles[this.linked[i]];
+          p = particlesTL[this.linked[i]];
           pos = position(p.x, p.y, p.z);
-          points.push([pos.x, pos.y]);
+          pointsTL.push([pos.x, pos.y]);
         }
 
-        var linkSpeedRel = linkSpeed * 0.00001 * canvas.width;
+        var linkSpeedRel = linkSpeed * 0.00001 * canvasTL.width;
         this.traveled += linkSpeedRel;
         var d = this.distances[this.linked.length-1];
         // Calculate last point based on linkSpeed and distance travelled to next point
@@ -462,9 +449,9 @@ Link.prototype.render = function() {
           //console.log(this.verts[0]+' reached vertex '+(this.linked.length+1)+' of '+this.verts.length);
 
           this.linked.push(this.verts[this.linked.length]);
-          p = particles[this.linked[this.linked.length-1]];
+          p = particlesTL[this.linked[this.linked.length-1]];
           pos = position(p.x, p.y, p.z);
-          points.push([pos.x, pos.y]);
+          pointsTL.push([pos.x, pos.y]);
 
           if (this.linked.length >= this.verts.length) {
             //console.log(this.verts[0]+' moving to stage 2 (1)');
@@ -474,8 +461,8 @@ Link.prototype.render = function() {
         else {
           // We're still travelling to the next point, get coordinates at travel distance
           // http://math.stackexchange.com/a/85582
-          var a = particles[this.linked[this.linked.length-1]],
-            b = particles[this.verts[this.linked.length]],
+          var a = particlesTL[this.linked[this.linked.length-1]],
+            b = particlesTL[this.verts[this.linked.length]],
             t = d - this.traveled,
             x = ((this.traveled * b.x) + (t * a.x)) / d,
             y = ((this.traveled * b.y) + (t * a.y)) / d,
@@ -485,10 +472,10 @@ Link.prototype.render = function() {
 
           //console.log(this.verts[0]+' traveling to vertex '+(this.linked.length+1)+' of '+this.verts.length+' ('+this.traveled+' of '+this.distances[this.linked.length]+')');
 
-          points.push([pos.x, pos.y]);
+          pointsTL.push([pos.x, pos.y]);
         }
 
-        this.drawLine(points);
+        this.drawLine(pointsTL);
       }
       else {
         //console.log(this.verts[0]+' prematurely moving to stage 3 (1)');
@@ -499,19 +486,20 @@ Link.prototype.render = function() {
 
     // FADE OUT STAGE
     case 2:
+      console.log("class LinkTL/render case 2: fade");
       if (this.verts.length > 1) {
         if (this.fade < linkFade) {
           this.fade++;
 
-          // Render full link between all vertices and fade over time
-          points = [];
+          // Render full link between all verticesTL and fade over time
+          pointsTL = [];
           var alpha = (1 - (this.fade / linkFade)) * linkOpacity;
           for (i = 0; i < this.verts.length; i++) {
-            p = particles[this.verts[i]];
+            p = particlesTL[this.verts[i]];
             pos = position(p.x, p.y, p.z);
-            points.push([pos.x, pos.y]);
+            pointsTL.push([pos.x, pos.y]);
           }
-          this.drawLine(points, alpha);
+          this.drawLine(pointsTL, alpha);
         }
         else {
           //console.log(this.verts[0]+' moving to stage 3 (2a)');
@@ -528,27 +516,28 @@ Link.prototype.render = function() {
 
     // FINISHED STAGE
     case 3:
+      console.log("class LinkTL/render case 3: finish");
     default:
       this.finished = true;
     break;
   }
 };
-Link.prototype.drawLine = function(points, alpha) {
+LinkTL.prototype.drawLine = function(pointsTL, alpha) {
   if (typeof alpha !== 'number') alpha = linkOpacity;
 
-  if (points.length > 1 && alpha > 0) {
+  if (pointsTL.length > 1 && alpha > 0) {
     //console.log(this.verts[0]+': Drawing line '+alpha);
-    context.globalAlpha = alpha;
-    context.beginPath();
-    for (var i = 0; i < points.length-1; i++) {
-      context.moveTo(points[i][0], points[i][1]);
-      context.lineTo(points[i+1][0], points[i+1][1]);
+    contextTL.globalAlpha = alpha;
+    contextTL.beginPath();
+    for (var i = 0; i < pointsTL.length-1; i++) {
+      contextTL.moveTo(pointsTL[i][0], pointsTL[i][1]);
+      contextTL.lineTo(pointsTL[i+1][0], pointsTL[i+1][1]);
     }
-    context.strokeStyle = color;
-    context.lineWidth = lineWidth;
-    context.stroke();
-    context.closePath();
-    context.globalAlpha = 1;
+    contextTL.strokeStyle = color;
+    contextTL.lineWidth = lineWidth;
+    contextTL.stroke();
+    contextTL.closePath();
+    contextTL.globalAlpha = 1;
   }
 };
 
@@ -570,13 +559,13 @@ function noisePoint(i) {
 
 function position(x, y, z) {
   return {
-    x: (x * canvas.width) + ((((canvas.width / 2) - mouse.x + ((nPos.x - 0.5) * noiseStrength)) * z) * motion),
-    y: (y * canvas.height) + ((((canvas.height / 2) - mouse.y + ((nPos.y - 0.5) * noiseStrength)) * z) * motion)
+    x: (x * canvasTL.width) + ((((canvasTL.width / 2) - mouse.x + ((nPos.x - 0.5) * noiseStrength)) * z) * motion),
+    y: (y * canvasTL.height) + ((((canvasTL.height / 2) - mouse.y + ((nPos.y - 0.5) * noiseStrength)) * z) * motion)
   };
 }
 
 function sizeRatio() {
-  return canvas.width >= canvas.height ? canvas.width : canvas.height;
+  return canvasTL.width >= canvasTL.height ? canvasTL.width : canvasTL.height;
 }
 
 function random(min, max, float) {
@@ -590,7 +579,7 @@ function random(min, max, float) {
 function linkParticlesToNodes(){
   //Select leftmost particle
   let leftmost;
-  particles.forEach((particle) => {if(particle.x < leftmost.x) leftmost = particle;});
+  particlesTL.forEach((particle) => {if(particle.x < leftmost.x) leftmost = particle;});
 
 }
 
@@ -598,4 +587,4 @@ function linkParticlesToNodes(){
 //#endregion
 
 // build
-if (canvas) build();
+if (canvasTL) build();
