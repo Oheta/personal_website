@@ -40,7 +40,6 @@ var particleCount = 6,
   noiseLength = 1000,
   noiseStrength = 1;
   section = document.currentScript.getAttribute( "data-section" );
-console.log(section);
 
 var canvasBR = document.getElementById('canvas-BR'),
   //orbits = document.getElementById('orbits'),
@@ -62,7 +61,6 @@ var canvasBR = document.getElementById('canvas-BR'),
   trianglesBR = [];
   
 function build() {
-  console.log("into build");
   var i, j, k;
 
   // requestAnimFrame polyfill
@@ -171,7 +169,6 @@ function build() {
 
   // Animation loop
   (function animloop(){
-    console.log("anim loop BR");
     requestAnimFrame(animloop);
     resize();
     renderBR();
@@ -180,7 +177,6 @@ function build() {
 
 
 function renderBR() {
-  console.log("start renderBR()");
   if (randomMotion) {
     n++;
     if (n >= noiseLength) {
@@ -231,22 +227,18 @@ function renderBR() {
   }
 
   if (renderLinks) {
-    console.log("build/renderlinks condition");
     // Possibly start a new link
     let randomL = random(0, linkChance);
-    console.log("randomL = ", randomL);
     if (randomL == linkChance) {
-      console.log("inside condi");
       var length = random(linkLengthMin, linkLengthMax);
       var start = random(0, particlesBR.length-1);
-      console.log("starting link : start = ", start, " length = ", length);
+      //console.log("starting link : start = ", start, " length = ", length);
       startLinkBR(start, length);
     }
 
     // Render existing linksBR
     // Iterate in reverse so that removing items doesn't affect the loop
     for (var l = linksBR.length-1; l >= 0; l--) {
-      console.log("build/renderlinks condi/for loop");
       if (linksBR[l] && !linksBR[l].finished) {
         linksBR[l].render();
       }
@@ -279,7 +271,7 @@ function resize() {
 }
 
 function startLinkBR(vertex, length) {
-  console.log('LINK from '+vertex+' (length '+length+')');
+  //console.log('LINK from '+vertex+' (length '+length+')');
   linksBR.push(new LinkBR(vertex, length));
 }
 
@@ -382,11 +374,9 @@ LinkBR.prototype.render = function() {
   // 3. Finished (delete me)
 
   var i, p, pos, pointsBR;
-  console.log("inside LinkBR.render()");
   switch (this.stage) {
     // VERTEX COLLECTION STAGE
     case 0:
-      console.log("class LinkBR/render case 0: vertex collection");
       // Grab the last member of the link
       var last = particlesBR[this.verts[this.verts.length-1]];
       //console.log(JSON.stringify(last));
@@ -426,7 +416,6 @@ LinkBR.prototype.render = function() {
 
     // RENDER LINE ANIMATION STAGE
     case 1:
-      console.log("class LinkBR/render case 1: render anim");
       if (this.distances.length > 0) {
 
         pointsBR = [];
@@ -486,7 +475,6 @@ LinkBR.prototype.render = function() {
 
     // FADE OUT STAGE
     case 2:
-      console.log("class LinkBR/render case 2: fade");
       if (this.verts.length > 1) {
         if (this.fade < linkFade) {
           this.fade++;
@@ -516,7 +504,6 @@ LinkBR.prototype.render = function() {
 
     // FINISHED STAGE
     case 3:
-      console.log("class LinkBR/render case 3: finish");
     default:
       this.finished = true;
     break;

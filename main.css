@@ -1,5 +1,6 @@
 @import url(style/fonts.css);
 @import url(style/eye_style.css);
+@import url(style/canvas_styles.css);
 
 @font-face {
     src: url(fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf);
@@ -20,14 +21,6 @@ body, html {
     z-index: -1;
 }
 
-.constellation-bg{
-    display: block;
-    position: relative;
-    width: 50vw;
-    height: 50vh;
-    float: left;
-    z-index: 1;
-}
 
 #eye-mainMenu{
     margin: auto;
@@ -122,10 +115,10 @@ body, html {
     overflow: auto;
     scroll-behavior: smooth;
 }
-#Experience{}
+/*#Experience{}
 #Portfolio{}
 #Contact{}
-
+*/
 .slideIn{
     left: 20vw;
 }
@@ -177,6 +170,12 @@ body, html {
     margin: 3em;
     color: black;
     text-align: justify;
+}
+
+.expNode{
+    position: absolute;
+    border: 10px solid blue;
+    border-radius: 50%;
 }
 
 .job-container {

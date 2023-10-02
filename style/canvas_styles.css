@@ -1,0 +1,18 @@
+.constellation-bg{
+    display: block;
+    position: relative;
+    width: 50vw;
+    height: 50vh;
+    float: left;
+    z-index: auto;
+}
+
+#canvas-TL{
+    background-color: linear-gradient(45deg, rgba(107, 31, 31, 0.5), rgba(238, 11, 11, 0.5));
+}
+
+/*#canvas-TR{}
+
+#canvas-BL{}
+
+#canvas-BR{}*/

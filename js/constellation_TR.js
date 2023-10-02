@@ -38,7 +38,6 @@ var particleCount = 6,
   noiseLength = 1000,
   noiseStrength = 1;
   section = document.currentScript.getAttribute( "data-section" );
-console.log(section);
 
 var canvas = document.getElementById('canvas-TR'),
   //orbits = document.getElementById('orbits'),
@@ -60,7 +59,6 @@ var canvas = document.getElementById('canvas-TR'),
   trianglesTR = [];
   
 function build() {
-  console.log("into build");
   var i, j, k;
 
   // requestAnimFrame polyfill

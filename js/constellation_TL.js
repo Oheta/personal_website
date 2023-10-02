@@ -8,7 +8,8 @@
  */
 
 // Settings
-var particleCount = 6,
+var nodes = document.getElementsByClassName("expNode"),
+  particleCount = nodes.length,
   flareCount = 10,
   motion = 0.05,
   tilt = 0.05,
@@ -40,7 +41,7 @@ var particleCount = 6,
   noiseLength = 1000,
   noiseStrength = 1;
   section = document.currentScript.getAttribute( "data-section" );
-console.log(section);
+//console.log(section);
 
 var canvasTL = document.getElementById('canvas-TL'),
   //orbits = document.getElementById('orbits'),
@@ -60,9 +61,9 @@ var canvasTL = document.getElementById('canvas-TL'),
   particlesTL = [],
   flaresTL = [],
   trianglesTL = [];
-  
+
 function build() {
-  console.log("into build");
+  //console.log("into build");
   var i, j, k;
 
   // requestAnimFrame polyfill
@@ -100,6 +101,15 @@ function build() {
     pointsTL.push([p.x*c, p.y*c]);
   }
   //console.log(JSON.stringify(pointsTL));
+  //Get nodes to stick to particles
+  try{
+    console.log("Linking Nodes to particles...?");
+    linkNodesToParticles();
+  }catch(error)
+  {
+    console.log("failed to link nodes");
+    console.error(error);
+  };
 
   // Delaunay triangulation
   //var Delaunay = require('delaunay-fast');
@@ -171,7 +181,7 @@ function build() {
 
   // Animation loop
   (function animloop(){
-    console.log("anim loop TL");
+    //console.log("anim loop TL");
     requestAnimFrame(animloop);
     resize();
     renderTL();
@@ -180,7 +190,7 @@ function build() {
 
 
 function renderTL() {
-  console.log("start renderTL()");
+  //console.log("start renderTL()");
   if (randomMotion) {
     n++;
     if (n >= noiseLength) {
@@ -231,22 +241,22 @@ function renderTL() {
   }
 
   if (renderLinks) {
-    console.log("build/renderlinks condition");
+    //console.log("build/renderlinks condition");
     // Possibly start a new link
     let randomL = random(0, linkChance);
-    console.log("randomL = ", randomL);
+    //console.log("randomL = ", randomL);
     if (randomL == linkChance) {
-      console.log("inside condi");
+      //console.log("inside condi");
       var length = random(linkLengthMin, linkLengthMax);
       var start = random(0, particlesTL.length-1);
-      console.log("starting link : start = ", start, " length = ", length);
+      //console.log("starting link : start = ", start, " length = ", length);
       startLinkTL(start, length);
     }
 
     // Render existing linksTL
     // Iterate in reverse so that removing items doesn't affect the loop
     for (var l = linksTL.length-1; l >= 0; l--) {
-      console.log("build/renderlinks condi/for loop");
+      //console.log("build/renderlinks condi/for loop");
       if (linksTL[l] && !linksTL[l].finished) {
         linksTL[l].render();
       }
@@ -279,7 +289,7 @@ function resize() {
 }
 
 function startLinkTL(vertex, length) {
-  console.log('LINK from '+vertex+' (length '+length+')');
+  //console.log('LINK from '+vertex+' (length '+length+')');
   linksTL.push(new LinkTL(vertex, length));
 }
 
@@ -382,11 +392,11 @@ LinkTL.prototype.render = function() {
   // 3. Finished (delete me)
 
   var i, p, pos, pointsTL;
-  console.log("inside LinkTL.render()");
+  //console.log("inside LinkTL.render()");
   switch (this.stage) {
     // VERTEX COLLECTION STAGE
     case 0:
-      console.log("class LinkTL/render case 0: vertex collection");
+      //console.log("class LinkTL/render case 0: vertex collection");
       // Grab the last member of the link
       var last = particlesTL[this.verts[this.verts.length-1]];
       //console.log(JSON.stringify(last));
@@ -426,7 +436,7 @@ LinkTL.prototype.render = function() {
 
     // RENDER LINE ANIMATION STAGE
     case 1:
-      console.log("class LinkTL/render case 1: render anim");
+      //console.log("class LinkTL/render case 1: render anim");
       if (this.distances.length > 0) {
 
         pointsTL = [];
@@ -486,7 +496,7 @@ LinkTL.prototype.render = function() {
 
     // FADE OUT STAGE
     case 2:
-      console.log("class LinkTL/render case 2: fade");
+      //console.log("class LinkTL/render case 2: fade");
       if (this.verts.length > 1) {
         if (this.fade < linkFade) {
           this.fade++;
@@ -516,7 +526,7 @@ LinkTL.prototype.render = function() {
 
     // FINISHED STAGE
     case 3:
-      console.log("class LinkTL/render case 3: finish");
+      //console.log("class LinkTL/render case 3: finish");
     default:
       this.finished = true;
     break;
@@ -576,11 +586,18 @@ function random(min, max, float) {
 
 
 //#region T.Ebalard : Here are my additions
-function linkParticlesToNodes(){
-  //Select leftmost particle
-  let leftmost;
-  particlesTL.forEach((particle) => {if(particle.x < leftmost.x) leftmost = particle;});
+function linkNodesToParticles(){
+  var i=0;
+  for(i = 0; i<particleCount; i++)
+  {
+    nodes[i].x = particlesTL[i].x*100, nodes[i].y = particlesTL[i].y*100;
+    nodes[i].style.left = nodes[i].x + "%";
+    nodes[i].style.top = nodes[i].y+"%";
 
+    console.log("transform of nodes[",i,"] : ", nodes[i].style.transform );
+    console.log("Node n° ", i, " moved to coodinates : ", nodes[i].x, nodes[i].y);
+  }
+  i=null;
 }
 
 
