@@ -1,9 +1,16 @@
-.constellation-bg{
-    display: block;
+.const-wr{
     position: relative;
+    display: block;
+    float: left;
     width: 50vw;
     height: 50vh;
-    float: left;
+    margin: 0;
+}
+
+.constellation-bg{
+    position: absolute;
+    width: 50vw;
+    height: 50vh;
     z-index: auto;
 }
 

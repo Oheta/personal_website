@@ -11,24 +11,32 @@
 	<title>Theau Ebalard - Freelance Software Engineering</title>
 </head>
 <body>
-	<canvas class="constellation-bg" id="canvas-TL">
+	<div class="const-wr" id="const-wr-TL">
+		<canvas class="constellation-bg" id="canvas-TL">
+			<script src="js/constellation_TL.js" data-section="top-left"></script>
+		</canvas>
 		<div class="expNode">content</div>
 		<div class="expNode">content</div>
 		<div class="expNode">content</div>
 		<div class="expNode">content</div>
 		<div class="expNode">content</div>
 		<div class="expNode">content</div>
-		<script src="js/constellation_TL.js" data-section="top-left"></script>
-	</canvas>
-	<canvas class="constellation-bg" id="canvas-TR">
-		<script src="js/constellation_TR.js" data-section="top-right"></script>
-	</canvas>
-	<canvas class="constellation-bg" id="canvas-BR">
-		<script src="js/constellation_BR.js" data-section="bottom-right"></script>
-	</canvas>
-	<canvas class="constellation-bg" id="canvas-BL">
-		<script src="js/constellation_BL.js" data-section="bottom-left"></script>
-	</canvas>
+	</div>
+	<div class="const-wr">
+		<canvas class="constellation-bg" id="canvas-TR">
+			<script src="js/constellation_TR.js" data-section="top-right"></script>
+		</canvas>
+	</div>
+	<div class="const-wr">
+		<canvas class="constellation-bg" id="canvas-BR">
+			<script src="js/constellation_BR.js" data-section="bottom-right"></script>
+		</canvas>
+	</div>
+	<div class="const-wr">
+		<canvas class="constellation-bg" id="canvas-BL">
+			<script src="js/constellation_BL.js" data-section="bottom-left"></script>
+		</canvas>
+	</div>
 	<div id="eye-wrapper">
 		<div id="eye">
 			<div id="eyelid-t"></div>

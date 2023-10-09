@@ -174,7 +174,8 @@ body, html {
 
 .expNode{
     position: absolute;
-    border: 10px solid blue;
+    border: 10px solid blue !important;
+    background-color: blue;
     border-radius: 50%;
 }
 
@@ -184,12 +185,3 @@ body, html {
     justify-content: space-between;
 }
 
-.job-card {
-    width: 45%; /* Adjust as needed for the number of columns */
-    background-color: #f5f5f5;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px 0;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-}

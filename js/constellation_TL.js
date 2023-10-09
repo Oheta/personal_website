@@ -3,8 +3,8 @@
  * Inspired by Steve Courtney's poster art for Celsius GS's Drifter - http://celsiusgs.com/drifter/posters.php
  * by Cory Hughart - http://coryhughart.com
  * disclaimer from Theau Ebalard : modifications and additions were made to accomodate my own website
- * There is a lot of code dupe, but I unfortunately couldn't obtain the desired effect by treating all constellations within a single file. 
- * It does in sequence what I want to happen simulteanousely
+ *  There is a lot of code dupe, but I unfortunately couldn't obtain the desired effect by treating all constellations within a single file. 
+ *  It does in sequence what I want to happen simulteanousely
  */
 
 // Settings
@@ -29,7 +29,7 @@ var nodes = document.getElementsByClassName("expNode"),
   glareOpacityMultiplier = 0.05,
   renderParticles = true,
   renderParticleGlare = false,
-  renderFlares = true,
+  renderFlares = false ,
   renderLinks = true,
   renderMesh = false,
   flicker = true,
