@@ -100,16 +100,10 @@ function build() {
     particlesTL.push(p);
     pointsTL.push([p.x*c, p.y*c]);
   }
+  console.log("size of particlesTL : ", particlesTL.length);
   //console.log(JSON.stringify(pointsTL));
   //Get nodes to stick to particles
-  try{
-    console.log("Linking Nodes to particles...?");
-    linkNodesToParticles();
-  }catch(error)
-  {
-    console.log("failed to link nodes");
-    console.error(error);
-  };
+
 
   // Delaunay triangulation
   //var Delaunay = require('delaunay-fast');
@@ -210,6 +204,7 @@ function renderTL() {
   }
 
   if (renderParticles) {
+    //console.log("line 207 : render particlesTL. size ? ", particlesTL.length);
     // Render particlesTL
     for (var i = 0; i < particleCount; i++) {
       particlesTL[i].render();
@@ -272,6 +267,14 @@ function renderTL() {
       flaresTL[j].render();
     }
   }
+  try{
+    //console.log("Linking Nodes to particles...?");
+    linkNodesToParticles();
+  }catch(error)
+  {
+    //console.log("failed to link nodes");
+    console.error(error);
+  };
 
   /*
   if (orbitTilt) {
@@ -588,14 +591,15 @@ function random(min, max, float) {
 //#region T.Ebalard : Here are my additions
 function linkNodesToParticles(){
   var i=0;
+  //console.log("taille array particlesTL: ",particlesTL.length);
   for(i = 0; i<particleCount; i++)
   {
     nodes[i].x = particlesTL[i].x*100, nodes[i].y = particlesTL[i].y*100;
     nodes[i].style.left = nodes[i].x + "%";
     nodes[i].style.top = nodes[i].y+"%";
 
-    console.log("transform of nodes[",i,"] : ", nodes[i].style.transform );
-    console.log("Node n° ", i, " moved to coodinates : ", nodes[i].x, nodes[i].y);
+    //console.log("transform of nodes[",i,"] : ", nodes[i].style.transform );
+    //console.log("Node n° ", i, " moved to coodinates : ", nodes[i].x, nodes[i].y);
   }
   i=null;
 }
